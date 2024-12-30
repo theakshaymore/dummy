@@ -8,22 +8,26 @@
   </head>
   <body>
     <div class="container">
+      <h1>Expence Tracker</h1>
+      <form id="expenceForm">
+        <div class="inputGroup">
+          <label for="expenceName">Name</label>
+          <input type="text" id="expenceName" />
+          <label for="expencePrice">Price</label>
+          <input type="text" id="expencePrice" />
+          <input type="submit" value="Add" name="Add" />
+        </div>
+      </form>
 
-        <h1>Expence</h1>
-        <form id="expenceForm">
-            <label>Name</label>
-            <input type="text" id="expenceName">
-            <label>Price</label>
-            <input type="text" id="expencePrice">
-            <input type="submit" value="Add" name="Add">
-        </form>
-    </div>
-    <div class="displayBox">
-        <ul id="expenceList">
-            <li>hjhjhjhjhj</li>
-        </ul>
+      <!-- Expense list section -->
+      <div class="displayBox">
+        <h2>Expense List</h2>
+        <ul id="expenceList"></ul>
 
-        <span id="expenceTotal">Total</span>
+        <!-- Total section -->
+        <h3>Total</h3>
+        <span id="expenceTotal"></span>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>

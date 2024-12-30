@@ -5,10 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let expenceList = document.getElementById("expenceList");
   let expenceTotal = document.getElementById("expenceTotal");
 
-  let expences = [];
+  let expences = JSON.parse(localStorage.getItem("expences")) || [];
   let totalAmount = calculateTotal();
-  console.log(totalAmount);
-  
+
+
+  renderExpences();
+  updateTotal()
 
   expenceForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -25,30 +27,48 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       expences.push(addExpenceObj);
       saveExpenceToLocal();
-      updateTotal()
+      renderExpences();
+      updateTotal();
 
       expenceName.value = "";
       expencePrice.value = "";
-
     }
   });
 
+  expenceList.addEventListener('click', (event)=> {
+    if (event.target.tagName === 'BUTTON') {
+        let expenceId = JSON.parse(event.target.getAttribute('data-id'))
+        expences = expences.filter(expence => expence.id !== expenceId)
+        saveExpenceToLocal()
+        renderExpences()
+        updateTotal()
+    }
+    
+  })
+
   function calculateTotal() {
-    return expences.reduce((sum, expence) => sum + expence.price, 0)
+    return expences.reduce((sum, expence) => sum + expence.price, 0);
   }
 
   function updateTotal() {
-    totalAmount = calculateTotal()
+    totalAmount = calculateTotal();
+    expenceTotal.textContent = totalAmount;
+  }
+
+  function renderExpences() {
+    expenceList.innerHTML = "";
+    expences.forEach((expence) => {
+      let li = document.createElement("li");
+      li.innerHTML = `
+        <span>${expence.name}  - $${expence.price}</span>
+        <button data-id='${expence.id}'>Delete</button>
+        `;
+        expenceList.appendChild(li);
+    });
   }
 
   function saveExpenceToLocal() {
     localStorage.setItem("expences", JSON.stringify(expences));
     console.log("EXPENCE ADDED");
   }
-
-  function getExpenceListFromLoacl() {
-    return localStorage.getItem(expences);
-  }
-
-  
 });
